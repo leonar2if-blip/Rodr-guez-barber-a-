@@ -5,16 +5,17 @@ plugins {
   alias(libs.plugins.google.devtools.ksp)
   alias(libs.plugins.roborazzi)
   alias(libs.plugins.secrets)
+  // ❌ REMOVIDO: alias(libs.plugins.google.services) - causa error al no existir google-services.json
 }
 
 android {
   namespace = "com.example"
-  compileSdk = 35
+  compileSdk = 37 // ✅ Actualizado a 37
 
   defaultConfig {
     applicationId = "com.aistudio.rodriguezbarberia.kxmpzq"
     minSdk = 24
-    targetSdk = 35
+    targetSdk = 37 // ✅ Actualizado a 37
     versionCode = 1
     versionName = "1.0"
 
@@ -47,8 +48,11 @@ android {
     debug { signingConfig = signingConfigs.getByName("debugConfig") }
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17 // ✅ Actualizado a 17
+    targetCompatibility = JavaVersion.VERSION_17 // ✅ Actualizado a 17
+  }
+  kotlinOptions {
+    jvmTarget = "17" // ✅ Añadido para compatibilidad
   }
   buildFeatures {
     compose = true
@@ -68,6 +72,7 @@ secrets {
 // This makes it easy to add them back in the future if needed.
 dependencies {
   implementation(platform(libs.androidx.compose.bom))
+  // ❌ REMOVIDO: implementation(platform(libs.firebase.bom))
   // implementation(libs.accompanist.permissions)
   implementation(libs.androidx.activity.compose)
   // implementation(libs.androidx.camera.camera2)
@@ -98,6 +103,10 @@ dependencies {
   implementation(libs.okhttp)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)
+  // ❌ REMOVIDO: Firebase dependencies
+  // implementation(libs.firebase.messaging)
+  // implementation(libs.firebase.ai)
+  // implementation(libs.firebase.appcheck.recaptcha)
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
   testImplementation(libs.androidx.junit)
