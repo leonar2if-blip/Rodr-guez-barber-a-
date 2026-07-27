@@ -1,8 +1,6 @@
 package com.example.service
 
 import com.example.data.models.Appointment
-import com.example.data.models.Service
-import com.example.data.models.Settings
 import com.example.utils.DateFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +17,7 @@ class AppointmentService {
             // Fallback to direct GET
         }
         try {
-            api.getAppointmentsByDate("eq.$date")
+            api.getAppointmentsByDate(date)
         } catch (e: Exception) {
             emptyList()
         }
@@ -35,9 +33,9 @@ class AppointmentService {
 
     suspend fun getClientAppointments(clientId: String): List<Appointment> = withContext(Dispatchers.IO) {
         try {
-            val main = api.getAppointmentsByClient("eq.$clientId")
+            val main = api.getAppointmentsByClient(clientId)
             val annexed = try {
-                api.getAppointmentsByMainClient("eq.$clientId")
+                api.getAppointmentsByMainClient(clientId)
             } catch (e: Exception) {
                 emptyList()
             }
@@ -55,7 +53,7 @@ class AppointmentService {
             // Fallback
         }
         try {
-            val appts = api.getAppointmentsByDate("eq.$date")
+            val appts = api.getAppointmentsByDate(date)
             val maxTicket = appts.maxOfOrNull { it.ticketNumber } ?: 0
             maxTicket + 1
         } catch (e: Exception) {
@@ -71,7 +69,7 @@ class AppointmentService {
             // Fallback
         }
         try {
-            val appts = api.getAppointmentsByDate("eq.$date")
+            val appts = api.getAppointmentsByDate(date)
             val booked = appts.any { it.appointmentTime.startsWith(time.take(5)) && it.status != "canceled" }
             !booked
         } catch (e: Exception) {
@@ -124,7 +122,7 @@ class AppointmentService {
             } catch (e: Exception) {
                 // Fallback
             }
-            api.updateAppointment("eq.$appointmentId", mapOf(
+            api.updateAppointment(appointmentId.toString(), mapOf(
                 "status" to "canceled",
                 "canceled_by" to adminId,
                 "canceled_at" to DateFormatter.getTodayDateString()
@@ -143,7 +141,7 @@ class AppointmentService {
             } catch (e: Exception) {
                 // Fallback
             }
-            api.updateAppointment("eq.$appointmentId", mapOf("status" to "attended"))
+            api.updateAppointment(appointmentId.toString(), mapOf("status" to "attended"))
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
@@ -167,7 +165,7 @@ class AppointmentService {
 
             // Mark old as attended or rescheduled
             try {
-                api.updateAppointment("eq.${appointment.id}", mapOf("status" to "attended"))
+                api.updateAppointment(appointment.id.toString(), mapOf("status" to "attended"))
             } catch (e: Exception) {}
 
             val res = createAppointment(newAppt)
@@ -179,7 +177,7 @@ class AppointmentService {
 
     suspend fun updateAppointmentNotes(appointmentId: Long, notes: String): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
-            api.updateAppointment("eq.$appointmentId", mapOf("notes" to notes))
+            api.updateAppointment(appointmentId.toString(), mapOf("notes" to notes))
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
