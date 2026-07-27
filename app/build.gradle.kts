@@ -1,41 +1,24 @@
+import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.google.devtools.ksp)
-    alias(libs.plugins.roborazzi)
-    alias(libs.plugins.secrets)
-    // ❌ REMOVIDO: alias(libs.plugins.google.services)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.aistudio.rodriguezbarberia.kxmpzq"
-    compileSdk = 37  // ← CAMBIADO: de 36 a 37 para compatibilidad con core-ktx 1.18.0
+    namespace = "com.example"
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.aistudio.rodriguezbarberia.kxmpzq"
         minSdk = 24
-        targetSdk = 37  // ← CAMBIADO: de 36 a 37
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    signingConfigs {
-        create("release") {
-            val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-            storeFile = file(keystorePath)
-            storePassword = System.getenv("STORE_PASSWORD")
-            keyAlias = "upload"
-            keyPassword = System.getenv("KEY_PASSWORD")
-        }
-        create("debugConfig") {
-            storeFile = file("${rootDir}/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
     }
 
     buildTypes {
@@ -43,20 +26,19 @@ android {
             isCrunchPngs = false
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
         }
         debug {
-            signingConfig = signingConfigs.getByName("debugConfig")
+            // Usa el debug keystore por defecto de Android
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17  // ← CAMBIADO: de 11 a 17 para mejor compatibilidad
-        targetCompatibility = JavaVersion.VERSION_17  // ← CAMBIADO: de 11 a 17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "17"  // ← AÑADIDO: para compatibilidad con Java 17
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -71,15 +53,18 @@ android {
     }
 }
 
-// Configure the Secrets Gradle Plugin to use .env and .env.example files
 secrets {
     propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
 }
 
+googleServices {
+    missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
+}
+
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    // ❌ REMOVIDO: implementation(platform(libs.firebase.bom))
+    implementation(platform(libs.firebase.bom))
 
     // Core Android
     implementation(libs.androidx.core.ktx)
@@ -99,35 +84,32 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    // DataStore (preferencias locales)
+    // DataStore
     implementation(libs.androidx.datastore.preferences)
 
-    // Room (base de datos local)
+    // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
     // Kotlin
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
-    // Networking (Retrofit + OkHttp)
+    // Networking
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.kotlin.codegen)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
     // Coil (imágenes)
     implementation(libs.coil.compose)
 
-    // ❌ REMOVIDO: Firebase dependencies
-    // implementation(libs.firebase.bom)
-    // implementation(libs.firebase.messaging)
-    // implementation(libs.firebase.ai)
-    // implementation(libs.firebase.appcheck.recaptcha)
+    // Firebase
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.ai)
+    implementation(libs.firebase.appcheck.recaptcha)
 
     // Tests
     testImplementation(libs.junit)
