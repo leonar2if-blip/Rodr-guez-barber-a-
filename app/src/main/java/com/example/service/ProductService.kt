@@ -58,7 +58,7 @@ class ProductService {
 
     suspend fun updateProduct(id: Long, updates: Map<String, Any?>): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
-            api.updateProduct("eq.$id", updates)
+            api.updateProduct(id.toString(), updates)
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
@@ -67,7 +67,7 @@ class ProductService {
 
     suspend fun deleteProduct(id: Long): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
-            api.deleteProduct("eq.$id")
+            api.deleteProduct(id.toString())
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
@@ -94,7 +94,7 @@ class ProductService {
 
     suspend fun updateService(id: Long, updates: Map<String, Any?>): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
-            api.updateService("eq.$id", updates)
+            api.updateService(id.toString(), updates)
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
@@ -103,7 +103,7 @@ class ProductService {
 
     suspend fun deleteService(id: Long): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
-            api.deleteService("eq.$id")
+            api.deleteService(id.toString())
             Result.success(true)
         } catch (e: Exception) {
             Result.failure(e)
@@ -122,7 +122,7 @@ class ProductService {
     suspend fun saveSetting(key: String, value: String): Result<Boolean> = withContext(Dispatchers.IO) {
         try {
             try {
-                api.updateSettingByKey("eq.$key", mapOf("value" to value))
+                api.updateSettingByKey(key, mapOf("value" to value))
             } catch (e: Exception) {
                 api.createSetting(Settings(key = key, value = value))
             }

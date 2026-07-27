@@ -16,7 +16,7 @@ class AuthService {
 
             // 1. First check if profile exists directly by phone (in case admin or pre-created user exists without email)
             val existingProfiles = try {
-                api.getProfileByPhone("eq.$cleanPhone")
+                api.getProfileByPhone(cleanPhone)
             } catch (e: Exception) {
                 emptyList()
             }
@@ -29,7 +29,7 @@ class AuthService {
                     
                     // Fetch profile
                     val profList = try {
-                        api.getProfileById("eq.${authRes.user.id}")
+                        api.getProfileById(authRes.user.id)
                     } catch (e: Exception) {
                         emptyList()
                     }
@@ -72,7 +72,7 @@ class AuthService {
             
             // Check if phone already exists
             val existing = try {
-                api.getProfileByPhone("eq.$cleanPhone")
+                api.getProfileByPhone(cleanPhone)
             } catch (e: Exception) {
                 emptyList()
             }
@@ -124,7 +124,7 @@ class AuthService {
     suspend fun updatePhone(userId: String, newPhone: String): Result<Profile> = withContext(Dispatchers.IO) {
         try {
             val cleanPhone = Validators.cleanPhoneNumber(newPhone)
-            val updated = api.updateProfile("eq.$userId", mapOf("phone" to cleanPhone))
+            val updated = api.updateProfile(userId, mapOf("phone" to cleanPhone))
             if (updated.isNotEmpty()) {
                 Result.success(updated.first())
             } else {
