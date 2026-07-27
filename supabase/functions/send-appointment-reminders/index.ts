@@ -101,13 +101,20 @@ serve(async (req) => {
       }
       // Notificación 1 hora antes
       else if (diffHours > 0.5 && diffHours <= 1 && !appt.notified_1h) {
-        message = `🚨 ${clientName}, tu cita es en 1 hora (${appt.appointment_time.slice(0, 5)}). ¡Te esperamos!`;
+        // Calcular hora de llegada (5 minutos antes del turno)
+        const [hours, minutes] = appt.appointment_time.split(":").map(Number);
+        const arrivalMinutes = hours * 60 + minutes - 5;
+        const arrivalHours = Math.floor(arrivalMinutes / 60);
+        const arrivalMins = arrivalMinutes % 60;
+        const arrivalTime = `${arrivalHours.toString().padStart(2, "0")}:${arrivalMins.toString().padStart(2, "0")}`;
+        
+        message = `🚨 ${clientName}, tu cita es a las ${appt.appointment_time.slice(0, 5)}. Recuerda estar en el local a las ${arrivalTime} (5 min antes). ¡Te esperamos!`;
         shouldNotify = true;
         updateField = "notified_1h";
       }
-      // Notificación 5 minutos antes
+      // Notificación 5 minutos antes (cuando debe llegar al local)
       else if (diffMinutes > 0 && diffMinutes <= 5 && !appt.notified_5min) {
-        message = `⏱️ ${clientName}, es tu turno en 5 minutos. Prepárate!`;
+        message = `⏱️ ${clientName}, ya puedes dirigirte al local. Tu turno es ahora!`;
         shouldNotify = true;
         updateField = "notified_5min";
       }
