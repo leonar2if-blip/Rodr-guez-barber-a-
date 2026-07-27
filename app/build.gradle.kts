@@ -10,12 +10,12 @@ plugins {
 
 android {
   namespace = "com.example"
-  compileSdk = 37 // ✅ Actualizado a 37
+  compileSdk = 35 // ✅ Compatible con Android Gradle plugin 8.7.3
 
   defaultConfig {
     applicationId = "com.aistudio.rodriguezbarberia.kxmpzq"
     minSdk = 24
-    targetSdk = 37 // ✅ Actualizado a 37
+    targetSdk = 35 // ✅ Compatible con Android Gradle plugin 8.7.3
     versionCode = 1
     versionName = "1.0"
 
