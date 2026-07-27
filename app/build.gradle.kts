@@ -47,17 +47,21 @@ android {
     }
     debug { signingConfig = signingConfigs.getByName("debugConfig") }
   }
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17 // ✅ Actualizado a 17
     targetCompatibility = JavaVersion.VERSION_17 // ✅ Actualizado a 17
   }
+
   kotlinOptions {
     jvmTarget = "17" // ✅ Añadido para compatibilidad
   }
+
   buildFeatures {
     compose = true
     buildConfig = true
   }
+
   testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
