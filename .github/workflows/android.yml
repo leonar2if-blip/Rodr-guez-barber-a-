@@ -25,40 +25,6 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
 
-    - name: Create google-services.json
-      run: |
-        cat > app/google-services.json << 'EOF'
-        {
-          "project_info": {
-            "project_number": "${{ secrets.FIREBASE_PROJECT_NUMBER }}",
-            "project_id": "rodriguez-barberia",
-            "storage_bucket": "rodriguez-barberia.appspot.com"
-          },
-          "client": [
-            {
-              "client_info": {
-                "mobilesdk_app_id": "${{ secrets.FIREBASE_MOBILE_SDK_APP_ID }}",
-                "android_client_info": {
-                  "package_name": "com.aistudio.rodriguezbarberia.kxmpzq"
-                }
-              },
-              "oauth_client": [],
-              "api_key": [
-                {
-                  "current_key": "${{ secrets.FIREBASE_API_KEY }}"
-                }
-              ],
-              "services": {
-                "appinvite_service": {
-                  "other_platform_oauth_client": []
-                }
-              }
-            }
-          ],
-          "configuration_version": "1"
-        }
-        EOF
-
     - name: Create .env file
       run: |
         cat > .env << 'EOF'

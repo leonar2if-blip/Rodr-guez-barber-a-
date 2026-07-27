@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -32,19 +34,24 @@
             </intent-filter>
         </activity>
 
-        <!-- Firebase Messaging Service -->
-        <service
-            android:name=".service.NotificationService"
+        <!-- Local Notification Receiver -->
+        <receiver
+            android:name=".notifications.NotificationReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.example.ACTION_24H_REMINDER" />
+                <action android:name="com.example.ACTION_1H_REMINDER" />
             </intent-filter>
-        </service>
+        </receiver>
 
-        <!-- Default notification channel for older devices -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="barberia_appointments_channel" />
+        <!-- Boot Receiver to reschedule notifications after reboot -->
+        <receiver
+            android:name=".notifications.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
