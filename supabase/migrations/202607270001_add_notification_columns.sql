@@ -9,7 +9,6 @@ ADD COLUMN IF NOT EXISTS fcm_token TEXT;
 ALTER TABLE appointments
 ADD COLUMN IF NOT EXISTS notified_24h BOOLEAN DEFAULT FALSE,
 ADD COLUMN IF NOT EXISTS notified_1h BOOLEAN DEFAULT FALSE,
-ADD COLUMN IF NOT EXISTS notified_5min BOOLEAN DEFAULT FALSE,
 ADD COLUMN IF NOT EXISTS notified_cancel BOOLEAN DEFAULT FALSE;
 
 -- 3. Enable pg_cron extension (if not already enabled)
@@ -82,5 +81,4 @@ CREATE POLICY "Users can read own FCM token"
 COMMENT ON COLUMN profiles.fcm_token IS 'Firebase Cloud Messaging token for push notifications';
 COMMENT ON COLUMN appointments.notified_24h IS 'True if 24-hour reminder was sent';
 COMMENT ON COLUMN appointments.notified_1h IS 'True if 1-hour reminder was sent';
-COMMENT ON COLUMN appointments.notified_5min IS 'True if 5-minute reminder was sent';
 COMMENT ON COLUMN appointments.notified_cancel IS 'True if cancellation notification was sent';

@@ -112,12 +112,6 @@ serve(async (req) => {
         shouldNotify = true;
         updateField = "notified_1h";
       }
-      // Notificación 5 minutos antes (cuando debe llegar al local)
-      else if (diffMinutes > 0 && diffMinutes <= 5 && !appt.notified_5min) {
-        message = `⏱️ ${clientName}, ya puedes dirigirte al local. Tu turno es ahora!`;
-        shouldNotify = true;
-        updateField = "notified_5min";
-      }
 
       // Enviar notificación si aplica y hay token
       if (shouldNotify && fcmToken) {
