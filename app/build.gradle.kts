@@ -55,7 +55,6 @@ android {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(platform(libs.firebase.bom))
 
     // Core Android
     implementation(libs.androidx.core.ktx)
@@ -75,10 +74,10 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    // DataStore (preferencias locales)
+    // DataStore
     implementation(libs.androidx.datastore.preferences)
 
-    // Room (base de datos local)
+    // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
 
@@ -87,7 +86,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
-    // Networking (Retrofit + OkHttp)
+    // Networking
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
@@ -96,11 +95,6 @@ dependencies {
 
     // Coil (imágenes)
     implementation(libs.coil.compose)
-
-    // Firebase
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.ai)
-    implementation(libs.firebase.appcheck.recaptcha)
 
     // Tests
     testImplementation(libs.junit)
