@@ -1,5 +1,3 @@
-import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -7,7 +5,7 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.secrets)
-    alias(libs.plugins.google.services)
+    // ❌ REMOVIDO: alias(libs.plugins.google.services)
 }
 
 android {
@@ -79,13 +77,9 @@ secrets {
     defaultPropertiesFileName = ".env.example"
 }
 
-googleServices {
-    missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
-}
-
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(platform(libs.firebase.bom))
+    // ❌ REMOVIDO: implementation(platform(libs.firebase.bom))
 
     // Core Android
     implementation(libs.androidx.core.ktx)
@@ -129,11 +123,11 @@ dependencies {
     // Coil (imágenes)
     implementation(libs.coil.compose)
 
-    // Firebase
-    implementation(libs.firebase.bom)
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.ai)
-    implementation(libs.firebase.appcheck.recaptcha)
+    // ❌ REMOVIDO: Firebase dependencies
+    // implementation(libs.firebase.bom)
+    // implementation(libs.firebase.messaging)
+    // implementation(libs.firebase.ai)
+    // implementation(libs.firebase.appcheck.recaptcha)
 
     // Tests
     testImplementation(libs.junit)
