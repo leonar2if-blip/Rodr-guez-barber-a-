@@ -53,10 +53,6 @@ android {
     targetCompatibility = JavaVersion.VERSION_17 // ✅ Actualizado a 17
   }
 
-  kotlinOptions {
-    jvmTarget = "17" // ✅ Añadido para compatibilidad
-  }
-
   buildFeatures {
     compose = true
     buildConfig = true
