@@ -1,10 +1,7 @@
-import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -25,10 +22,13 @@ android {
         release {
             isCrunchPngs = false
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         debug {
-            // Usa el debug keystore por defecto de Android
+            // Usa el keystore debug por defecto de Android
         }
     }
 
@@ -53,15 +53,6 @@ android {
     }
 }
 
-secrets {
-    propertiesFileName = ".env"
-    defaultPropertiesFileName = ".env.example"
-}
-
-googleServices {
-    missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN
-}
-
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(platform(libs.firebase.bom))
@@ -84,10 +75,10 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    // DataStore
+    // DataStore (preferencias locales)
     implementation(libs.androidx.datastore.preferences)
 
-    // Room
+    // Room (base de datos local)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
 
@@ -96,7 +87,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
-    // Networking
+    // Networking (Retrofit + OkHttp)
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
